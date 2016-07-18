@@ -1,8 +1,8 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*- 
+# -*- coding: cp1251 -*-
 from grab import Grab
 import time
 g = Grab()
+password = "***"
 def TryGo(url):
    try:
       g.go(url)
@@ -19,10 +19,9 @@ def setStartDate():
    
 def getDB():
    global phone, api_key
-
-   TryGo("http://ripll.top/phone.ini")
+   TryGo("http://ripll.top/get.php?password=" + password + "&type=phone")
    phone = g.response.body.split()
-   TryGo("http://ripll.top/api_key.ini")
+   TryGo("http://ripll.top/get.php?password=" + password + "&type=api_key")
    api_key = g.response.body.split()
    
 setStartDate()
@@ -38,7 +37,7 @@ while True:
       while i < len(phone):
            SendSmsUrl = "http://sms.ru/sms/send?api_id=" + api_key[i] + "&to=" + phone[i] + "&text=" + now
            TryGo(SendSmsUrl)
-           print "ÐžÑ‚Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¾ Ð¡ÐœÐ¡ Ð½Ð° Ð½Ð¾Ð¼ÐµÑ€ " + phone[i]
+           print "Îòïðàâëåíî ÑÌÑ íà íîìåð " + phone[i]
            i += 1
       setStartDate()
    
